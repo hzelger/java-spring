@@ -1,15 +1,16 @@
 package swt5.spring.basics.ioc.logic.factorybased;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.security.PrivateKey;
+import java.util.*;
+
 import swt5.spring.basics.ioc.domain.Employee;
+import swt5.spring.basics.ioc.util.Logger;
+import swt5.spring.basics.ioc.util.LoggerFactory;
 
 public class WorkLogServiceImpl {
   private Map<Long, Employee> employees = new HashMap<>();
+  private Logger logger;
 
   private void initLogger() {
     Properties props = new Properties();
@@ -23,9 +24,9 @@ public class WorkLogServiceImpl {
       e.printStackTrace();
     }
 
-    //
-    // TODO: read logger type from configuration
-    //
+    String type = props.getOrDefault("logger.type", "console").toString();
+    this.logger = LoggerFactory.getLogger(type);
+    
   }
   
   private void init() {
@@ -41,12 +42,13 @@ public class WorkLogServiceImpl {
 
 
   public Employee findEmployeeById(Long id) {
-    // TODO: log method invocation
-    return employees.get(id);
+    var empl = employees.get(id);
+    logger.log("findEmployeeById(" + id + "): " + empl);
+    return  empl;
   }
 
   public List<Employee> findAllEmployees() {
-    // TODO: log method invocation
+    logger.log("findAllEmployees()");
     return new ArrayList<Employee>(employees.values());
   }
 }
