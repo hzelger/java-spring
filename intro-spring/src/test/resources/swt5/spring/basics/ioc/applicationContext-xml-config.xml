@@ -8,11 +8,11 @@
     <bean id="consoleLogger"
           class="swt5.spring.basics.ioc.util.ConsoleLogger" />
     
-<!--    <bean id="fileLogger"-->
-<!--          class="swt5.spring.basics.ioc.util.FileLogger"-->
-<!--          destroy-method="close">-->
-<!--        <property name="fileName" value="log2.txt"/>-->
-<!--    </bean>-->
+    <bean id="fileLogger"
+          class="swt5.spring.basics.ioc.util.FileLogger"
+          destroy-method="close">
+        <property name="fileName" value="log2.txt"/>
+    </bean>
     
 <!--    <bean id="worklog" class="swt5.spring.basics.ioc.logic.xmlconfig.WorkLogServiceImpl">-->
 <!--&lt;!&ndash;        <property name="logger" ref="consoleLogger"/>&ndash;&gt;-->

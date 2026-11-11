@@ -1,5 +1,8 @@
 package swt5.spring.basics.ioc.util;
 
+import swt5.spring.basics.ioc.logic.Log;
+
+@Log(Log.Type.STANDARD)
 public class ConsoleLogger implements Logger {
 
   private String prefix = "Log";

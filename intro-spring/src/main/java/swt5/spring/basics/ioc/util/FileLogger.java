@@ -1,10 +1,13 @@
 package swt5.spring.basics.ioc.util;
 
 import jakarta.inject.Named;
+import swt5.spring.basics.ioc.logic.Log;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
+@Log(Log.Type.FILE)
 public class FileLogger implements Logger {
 
   private PrintWriter writer;
