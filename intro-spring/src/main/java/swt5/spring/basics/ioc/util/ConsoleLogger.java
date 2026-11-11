@@ -1,7 +1,9 @@
 package swt5.spring.basics.ioc.util;
 
+import org.springframework.stereotype.Component;
 import swt5.spring.basics.ioc.logic.Log;
 
+@Component
 @Log(Log.Type.STANDARD)
 public class ConsoleLogger implements Logger {
 

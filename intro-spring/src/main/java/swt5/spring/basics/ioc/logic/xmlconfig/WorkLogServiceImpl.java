@@ -11,7 +11,7 @@ import swt5.spring.basics.ioc.logic.Log;
 import swt5.spring.basics.ioc.util.Logger;
 import swt5.spring.basics.ioc.util.LoggerFactory;
 
-@Service
+@Service("worklog")
 public class WorkLogServiceImpl implements WorkLogService {
   private Map<Long, Employee> employees = new HashMap<>();
 

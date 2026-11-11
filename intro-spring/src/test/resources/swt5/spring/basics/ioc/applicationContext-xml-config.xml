@@ -4,15 +4,15 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">    
-    <context:annotation-config/>
-    <bean id="consoleLogger"
-          class="swt5.spring.basics.ioc.util.ConsoleLogger" />
-    
-    <bean id="fileLogger"
-          class="swt5.spring.basics.ioc.util.FileLogger"
-          destroy-method="close">
-        <property name="fileName" value="log2.txt"/>
-    </bean>
+<!--    Obsolete as we now use component scanning and annotations to configure beans.-->
+<!--    <bean id="consoleLogger"-->
+<!--          class="swt5.spring.basics.ioc.util.ConsoleLogger" />-->
+<!--    -->
+<!--    <bean id="fileLogger"-->
+<!--          class="swt5.spring.basics.ioc.util.FileLogger"-->
+<!--          destroy-method="close">-->
+<!--        <property name="fileName" value="log2.txt"/>-->
+<!--    </bean>-->
     
 <!--    <bean id="worklog" class="swt5.spring.basics.ioc.logic.xmlconfig.WorkLogServiceImpl">-->
 <!--&lt;!&ndash;        <property name="logger" ref="consoleLogger"/>&ndash;&gt;-->
@@ -20,6 +20,8 @@
 <!--    </bean>-->
 
 
-    <bean id="worklog" class="swt5.spring.basics.ioc.logic.xmlconfig.WorkLogServiceImpl">
-    </bean>
+<!--    <bean id="worklog" class="swt5.spring.basics.ioc.logic.xmlconfig.WorkLogServiceImpl">-->
+<!--    </bean>-->
+
+    <context:component-scan base-package="swt5.spring.basics.ioc" />
 </beans>
