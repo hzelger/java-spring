@@ -1,17 +1,19 @@
-package swt5.spring.basics.ioc.logic.factorybased;
+package swt5.spring.basics.ioc.logic.xmlconfig;
 
 import java.io.IOException;
-import java.security.PrivateKey;
 import java.util.*;
 
+import lombok.Setter;
 import swt5.spring.basics.ioc.domain.Employee;
 import swt5.spring.basics.ioc.util.Logger;
 import swt5.spring.basics.ioc.util.LoggerFactory;
 
-public class WorkLogServiceImpl {
+public class WorkLogServiceImpl implements WorkLogService {
   private Map<Long, Employee> employees = new HashMap<>();
-  private Logger logger;
 
+  @Setter
+  private Logger logger;
+  
   private void initLogger() {
     Properties props = new Properties();
    
@@ -28,25 +30,32 @@ public class WorkLogServiceImpl {
     this.logger = LoggerFactory.getLogger(type);
     
   }
-  
+
   private void init() {
     employees.put(1L, new Employee(1L, "Bill", "Gates"));
     employees.put(2L, new Employee(2L, "James", "Goslin"));
     employees.put(3L, new Employee(3L, "Bjarne", "Stroustrup"));
   }
-  
+
   public WorkLogServiceImpl() {
     initLogger();
     init();
   }
 
+  public WorkLogServiceImpl(Logger logger) {
+    this.logger = logger;
+    init();
+  }
 
+
+  @Override
   public Employee findEmployeeById(Long id) {
     var empl = employees.get(id);
     logger.log("findEmployeeById(" + id + "): " + empl);
     return  empl;
   }
 
+  @Override
   public List<Employee> findAllEmployees() {
     logger.log("findAllEmployees()");
     return new ArrayList<Employee>(employees.values());
