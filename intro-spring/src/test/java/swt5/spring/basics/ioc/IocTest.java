@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import swt5.spring.basics.ioc.logic.xmlconfig.WorkLogService;
 import swt5.spring.basics.ioc.logic.xmlconfig.WorkLogServiceImpl;
 
 public class IocTest {

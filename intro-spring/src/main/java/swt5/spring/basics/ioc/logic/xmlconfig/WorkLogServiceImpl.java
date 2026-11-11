@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.util.*;
 
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import swt5.spring.basics.ioc.domain.Employee;
 import swt5.spring.basics.ioc.util.Logger;
 import swt5.spring.basics.ioc.util.LoggerFactory;
 
+@Service
 public class WorkLogServiceImpl implements WorkLogService {
   private Map<Long, Employee> employees = new HashMap<>();
 
   @Setter
+  @Autowired
   private Logger logger;
   
   private void initLogger() {
