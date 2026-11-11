@@ -12,6 +12,6 @@
     </bean>
     
     <bean id="worklog" class="swt5.spring.basics.ioc.logic.xmlconfig.WorkLogServiceImpl">
-        <property name="logger" ref="consoleLogger" />
+        <constructor-arg ref="consoleLogger" />
     </bean>
 </beans>
