@@ -3,6 +3,7 @@ package swt5.spring.worklog.dao.jdbc;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import swt5.spring.worklog.dao.EmployeeDao;
 import swt5.spring.worklog.domain.Employee;
 
@@ -16,8 +17,8 @@ import java.util.Optional;
 
 public class EmployeeDaoJdbc implements EmployeeDao {
   @Setter
-  private DataSource dataSource;
-
+  private JdbcTemplate jdbcTemplate;
+  
   @Override
   public List<Employee> findAll() {
     return List.of();
@@ -33,7 +34,7 @@ public class EmployeeDaoJdbc implements EmployeeDao {
     final String sql =
       "insert into EMPLOYEE (FIRSTNAME, LASTNAME, DATEOFBIRTH) "
       + "values (?, ?, ?)";
-    try (Connection conn = dataSource.getConnection();
+    try (Connection conn = jdbcTemplate.getDataSource().getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
       stmt.setString(1, e.getFirstName());
       stmt.setString(2, e.getLastName());
