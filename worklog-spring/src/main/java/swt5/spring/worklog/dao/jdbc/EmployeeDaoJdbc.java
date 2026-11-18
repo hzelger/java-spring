@@ -6,26 +6,33 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import swt5.spring.worklog.dao.EmployeeDao;
 import swt5.spring.worklog.domain.Employee;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 public class EmployeeDaoJdbc implements EmployeeDao {
+    private static class EmployeeMapper implements RowMapper<Employee> {
+        @Override
+        public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Employee(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate());
+        }
+    }
+
     @Setter
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Employee> findAll() {
-        return List.of();
+        final String sql = 
+                "select id, firstname, lastname, date_of_birth from Employee";
+        return jdbcTemplate.query(sql, new EmployeeMapper());
     }
 
     @Override
@@ -90,7 +97,7 @@ public class EmployeeDaoJdbc implements EmployeeDao {
                             },
                 keyHolder
         );
-        
+
         e.setId(keyHolder.getKeyAs(Long.class));
     }
 

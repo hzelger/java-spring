@@ -1,6 +1,7 @@
 package swt5.spring.worklog.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -40,6 +41,13 @@ public class Employee implements Serializable {
   private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
   public Employee(String firstName, String lastName, LocalDate dateOfBirth) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.dateOfBirth = dateOfBirth;
+  }
+
+  public Employee(Long id, String firstName, String lastName, LocalDate dateOfBirth) {
+    this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.dateOfBirth = dateOfBirth;

@@ -22,37 +22,36 @@ import static swt5.util.PrintUtil.printTitle;
 @ContextConfiguration(classes = JdbcConfig.class)
 public class JdbcDaoTest {
 
-  //
-  // inject DataSource and EmployeeDao
-  //
-  @Autowired
-  private DataSource dataSource;
-  @Autowired
-  private EmployeeDao employeeDao;
+    //
+    // inject DataSource and EmployeeDao
+    //
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private EmployeeDao employeeDao;
 
-  private void createSchema(DataSource ds, String ddlScript) {
-    try {
-      DbScriptRunner scriptRunner = new DbScriptRunner(ds.getConnection());
-      InputStream is =
-        JdbcDaoTest.class.getClassLoader().getResourceAsStream(ddlScript);
-      if (is == null) throw new IllegalArgumentException(
-        String.format("File %s not found in classpath.", ddlScript));
-      scriptRunner.runScript(new InputStreamReader(is));
+    private void createSchema(DataSource ds, String ddlScript) {
+        try {
+            DbScriptRunner scriptRunner = new DbScriptRunner(ds.getConnection());
+            InputStream is =
+                    JdbcDaoTest.class.getClassLoader().getResourceAsStream(ddlScript);
+            if (is == null) throw new IllegalArgumentException(
+                    String.format("File %s not found in classpath.", ddlScript));
+            scriptRunner.runScript(new InputStreamReader(is));
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
     }
-    catch (SQLException | IOException e) {
-      e.printStackTrace();
-    }
-  }
-  
-  @Test
-  public void testJdbc() {
 
-    printTitle("create schema", 60, '-');
-     createSchema(dataSource,"worklog-db-schema.sql");
+    @Test
+    public void testJdbc() {
+
+        printTitle("create schema", 60, '-');
+        createSchema(dataSource, "worklog-db-schema.sql");
 
         printTitle("insert employee", 60, '-');
         Employee empl1 =
-          new Employee("Josefine", "Feichtlbauer", LocalDate.of(1970, 10, 26));
+                new Employee("Josefine", "Feichtlbauer", LocalDate.of(1970, 10, 26));
         employeeDao.insert(empl1);
         System.out.println("empl1 = " + (empl1 == null ? (null) : empl1.toString()));
 
@@ -60,5 +59,9 @@ public class JdbcDaoTest {
         empl1.setFirstName("Jaquira");
         empl1 = employeeDao.merge(empl1);
         System.out.println("empl1 = " + (empl1 == null ? (null) : empl1.toString()));
-  }
+
+        printTitle("read all", 50, '-');
+        
+        employeeDao.findAll().forEach(IO::println);
+    }
 }
