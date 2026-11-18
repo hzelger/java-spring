@@ -12,9 +12,6 @@
 
     <artifactId>intro-spring</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>worklog-spring</module>
-    </modules>
 
     <dependencies>
         <dependency>

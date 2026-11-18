@@ -40,9 +40,9 @@ public class JdbcConfig {
     // ========================= DAO DEFINITIONS ================================
     @Bean
     public EmployeeDao employeeDaoJdbc(DataSource ds) {
-      var employeeDao = new EmployeeDaoJdbc();
-      employeeDaoJdbc(ds);
-      return employeeDao;
+      var ed = new EmployeeDaoJdbc();
+      ed.setDataSource(ds);
+      return ed;
     }
     // ====================== BUSINESS OBJECT DEFINIONS =========================
 }
