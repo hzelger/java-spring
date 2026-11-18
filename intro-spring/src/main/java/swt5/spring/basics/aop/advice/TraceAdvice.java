@@ -6,21 +6,26 @@ import org.aspectj.lang.annotation.*;
 
 @Aspect
 public class TraceAdvice {
-    @Before("execution(public * swt5.spring.basics.aop.logic..*find*(..))")
+    @Pointcut("execution(public * swt5.spring.basics.aop.logic..*find*(..))")
+    private void findMethods(){
+        
+    }
+    
+    @Before("findMethods()")
     public void traceBefore(JoinPoint jp) {
         String methodName = jp.getTarget().getClass().getName() + "#" + jp.getSignature().getName();
 
         IO.println("--> %s".formatted(methodName));
     }
 
-    @After("execution(public * swt5.spring.basics.aop.logic..*find*(..))")
+    @After("findMethods()")
     public void traceAfter(JoinPoint jp) {
         String methodName = jp.getTarget().getClass().getName() + "#" + jp.getSignature().getName();
 
         IO.println("<-- %s".formatted(methodName));
     }
 
-    @Around("execution(public * swt5.spring.basics.aop.logic..*find*(..))")
+    @Around("findMethods()")
     public Object traceAround(ProceedingJoinPoint pjp) throws Throwable {
         String methodName = pjp.getTarget().getClass().getName() + "#" + pjp.getSignature().getName();
 
