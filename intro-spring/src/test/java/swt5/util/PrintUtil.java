@@ -2,8 +2,8 @@ package swt5.util;
 
 @SuppressWarnings("Duplicates")
 public class PrintUtil {
-
-	public static void printTitle(String text, int length, char ch) {
+	
+	public static void printTitle(String text, int length, char ch) {	
 		StringBuilder sb = new StringBuilder(length);
 		int n = (length - (text.length() + 2))/2;
 		for (int i=0; i<n; i++) sb.append(ch);
