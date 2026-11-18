@@ -1,6 +1,9 @@
 package swt5.spring.worklog.dao.jdbc;
 
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import swt5.spring.worklog.dao.EmployeeDao;
 import swt5.spring.worklog.domain.Employee;
 
 import javax.sql.DataSource;
@@ -8,10 +11,22 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
-public class EmployeeDaoJdbc {
-
+public class EmployeeDaoJdbc implements EmployeeDao {
+  @Setter
   private DataSource dataSource;
+
+  @Override
+  public List<Employee> findAll() {
+    return List.of();
+  }
+
+  @Override
+  public Optional<Employee> findById(Long id) {
+    return Optional.empty();
+  }
 
   // Version 1: Data access code without Spring
   public void insert(final Employee e) throws DataAccessException {
@@ -28,5 +43,10 @@ public class EmployeeDaoJdbc {
     catch (SQLException ex) {
       System.err.println(ex);
     }
+  }
+
+  @Override
+  public Employee merge(Employee entity) {
+    return null;
   }
 }
