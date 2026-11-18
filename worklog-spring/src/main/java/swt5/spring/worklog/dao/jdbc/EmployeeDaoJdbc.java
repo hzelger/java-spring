@@ -4,6 +4,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import swt5.spring.worklog.dao.EmployeeDao;
 import swt5.spring.worklog.domain.Employee;
 
@@ -30,7 +31,7 @@ public class EmployeeDaoJdbc implements EmployeeDao {
   }
 
   // Version 1: Data access code without Spring
-  public void insert(final Employee e) throws DataAccessException {
+  public void insert1(final Employee e) throws DataAccessException {
     final String sql =
       "insert into EMPLOYEE (FIRSTNAME, LASTNAME, DATEOFBIRTH) "
       + "values (?, ?, ?)";
@@ -45,7 +46,22 @@ public class EmployeeDaoJdbc implements EmployeeDao {
       System.err.println(ex);
     }
   }
-
+  
+  public void insert(final Employee e) throws DataAccessException {
+    final String sql =
+            "insert into EMPLOYEE (FIRSTNAME, LASTNAME, DATEOFBIRTH) "
+                    + "values (?, ?, ?)";
+    
+    jdbcTemplate.update(sql, new PreparedStatementSetter() {
+      @Override
+      public void setValues(PreparedStatement ps) throws SQLException {
+        ps.setString(1, e.getFirstName());
+        ps.setString(2, e.getLastName());
+        ps.setDate(3, Date.valueOf(e.getDateOfBirth()));
+      }
+    });
+  }
+  
   @Override
   public Employee merge(Employee entity) {
     return null;
