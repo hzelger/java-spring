@@ -1,5 +1,6 @@
 package swt5.spring.basics.aop.logic;
 
+import swt5.spring.basics.aop.annotation.Traceable;
 import swt5.spring.basics.aop.logic.Employee;
 import swt5.spring.basics.aop.logic.EmployeeIdNotFoundException;
 import swt5.spring.basics.aop.logic.WorkLogService;
@@ -23,12 +24,14 @@ public class WorkLogServiceImpl implements WorkLogService {
 		init();
 	}
 
+	@Traceable
 	public Employee findEmployeeById(Long id) throws EmployeeIdNotFoundException {
 		if (employees.get(id) == null)
 			throw new EmployeeIdNotFoundException();
 		return employees.get(id);
 	}
 
+	@Traceable
 	public List<Employee> findAllEmployees() {
 		return new ArrayList<Employee>(employees.values());
 	}

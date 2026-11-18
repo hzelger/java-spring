@@ -6,11 +6,13 @@ import org.aspectj.lang.annotation.*;
 
 @Aspect
 public class TraceAdvice {
-    @Pointcut("execution(public * swt5.spring.basics.aop.logic..*find*(..))")
+    // @Pointcut("execution(public * swt5.spring.basics.aop.logic..*find*(..))")
+    @Pointcut("@annotation(swt5.spring.basics.aop.annotation.Traceable)")
     private void findMethods(){
         
     }
     
+    // @Before("@annotation(swt5.spring.basics.aop.annotation.Traceable)")
     @Before("findMethods()")
     public void traceBefore(JoinPoint jp) {
         String methodName = jp.getTarget().getClass().getName() + "#" + jp.getSignature().getName();
