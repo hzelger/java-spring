@@ -59,6 +59,10 @@ public class JdbcDaoTest {
         empl1.setFirstName("Jaquira");
         empl1 = employeeDao.merge(empl1);
         System.out.println("empl1 = " + (empl1 == null ? (null) : empl1.toString()));
+        Employee empl2 =
+                new Employee("Josefine", "Boot", LocalDate.of(1975, 11, 26));
+        empl2 = employeeDao.merge(empl2);
+        System.out.println("empl2 = " + (empl2 == null ? (null) : empl2.toString()));
 
         printTitle("read all", 50, '-');
         employeeDao.findAll().forEach(IO::println);

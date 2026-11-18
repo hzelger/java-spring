@@ -111,7 +111,25 @@ public class EmployeeDaoJdbc implements EmployeeDao {
     }
 
     @Override
-    public Employee merge(Employee entity) {
-        return null;
+    public Employee merge(Employee e) {
+        if (e.getId() == null) {
+            insert(e);
+        } else {
+            final String sql =
+                    "update EMPLOYEE set firstname = ?, lastname = ?, dateofbirth  = ? " +
+                            "where id = ?";
+            
+            var r = jdbcTemplate.update(sql, new PreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement ps) throws SQLException {
+                    ps.setString(1, e.getFirstName());
+                    ps.setString(2, e.getLastName());
+                    ps.setDate(3, Date.valueOf(e.getDateOfBirth()));
+                    ps.setLong(4, e.getId());
+                }
+            });
+        }
+        
+        return e;
     }
 }
