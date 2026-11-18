@@ -61,7 +61,10 @@ public class JdbcDaoTest {
         System.out.println("empl1 = " + (empl1 == null ? (null) : empl1.toString()));
 
         printTitle("read all", 50, '-');
-        
         employeeDao.findAll().forEach(IO::println);
+        
+        printTitle("find by id", 50, '-');
+        employeeDao.findById(1L).ifPresentOrElse(IO::println, () -> IO.println("employee not found"));
+        employeeDao.findById(999L).ifPresentOrElse(IO::println, () -> IO.println("employee not found"));
     }
 }

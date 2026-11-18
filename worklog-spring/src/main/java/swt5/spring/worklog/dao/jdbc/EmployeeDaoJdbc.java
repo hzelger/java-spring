@@ -3,6 +3,7 @@ package swt5.spring.worklog.dao.jdbc;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -13,6 +14,7 @@ import swt5.spring.worklog.dao.EmployeeDao;
 import swt5.spring.worklog.domain.Employee;
 
 import javax.sql.DataSource;
+import javax.swing.text.html.Option;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
@@ -31,13 +33,20 @@ public class EmployeeDaoJdbc implements EmployeeDao {
     @Override
     public List<Employee> findAll() {
         final String sql = 
-                "select id, firstname, lastname, date_of_birth from Employee";
+                "select id, firstname, lastname, DATEOFBIRTH from Employee";
         return jdbcTemplate.query(sql, new EmployeeMapper());
     }
 
     @Override
     public Optional<Employee> findById(Long id) {
-        return Optional.empty();
+        final String sql =
+                "select id, firstname, lastname, dateofbirth from Employee " +
+                        "where id = ?";
+        var employees = jdbcTemplate.query(sql,new Object[] {id}, new EmployeeMapper());
+        if (employees.size() > 1)
+            throw new IncorrectResultSizeDataAccessException(1, employees.size());
+        
+        return employees.stream().findFirst();
     }
 
     // Version 1: Data access code without Spring
