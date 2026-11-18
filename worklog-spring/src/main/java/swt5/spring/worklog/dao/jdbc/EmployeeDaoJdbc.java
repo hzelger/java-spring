@@ -47,7 +47,7 @@ public class EmployeeDaoJdbc implements EmployeeDao {
     }
   }
   
-  public void insert(final Employee e) throws DataAccessException {
+  public void insert2(final Employee e) throws DataAccessException {
     final String sql =
             "insert into EMPLOYEE (FIRSTNAME, LASTNAME, DATEOFBIRTH) "
                     + "values (?, ?, ?)";
@@ -61,7 +61,14 @@ public class EmployeeDaoJdbc implements EmployeeDao {
       }
     });
   }
-  
+
+  public void insert(final Employee e) throws DataAccessException {
+    final String sql =
+            "insert into EMPLOYEE (FIRSTNAME, LASTNAME, DATEOFBIRTH) "
+                    + "values (?, ?, ?)";
+    
+    jdbcTemplate.update(sql, e.getFirstName(), e.getLastName(), e.getDateOfBirth());
+  }
   @Override
   public Employee merge(Employee entity) {
     return null;
