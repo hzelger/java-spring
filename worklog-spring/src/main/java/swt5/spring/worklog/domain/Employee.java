@@ -1,11 +1,5 @@
 package swt5.spring.worklog.domain;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,13 +12,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class Employee implements Serializable {
-  private static final long serialVersionUID = 1L;
 
   @Id @GeneratedValue(strategy=GenerationType.TABLE)
   private Long              id;
@@ -41,13 +39,6 @@ public class Employee implements Serializable {
   private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
   public Employee(String firstName, String lastName, LocalDate dateOfBirth) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.dateOfBirth = dateOfBirth;
-  }
-
-  public Employee(Long id, String firstName, String lastName, LocalDate dateOfBirth) {
-    this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.dateOfBirth = dateOfBirth;
