@@ -11,11 +11,14 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import swt5.spring.worklog.dao.EmployeeDao;
+import swt5.spring.worklog.dao.EmployeeRepository;
+import swt5.spring.worklog.dao.GenericDao;
 import swt5.spring.worklog.dao.jpa.EmployeeDaoJpa;
 
 @Configuration
 @EnableTransactionManagement
 @Import(JpaDataSourceConfig.class)
+@EnableJpaRepositories(basePackageClasses = GenericDao.class)
 public class JpaConfig1 {
 
   @Bean
@@ -34,7 +37,6 @@ public class JpaConfig1 {
     return new EmployeeDaoJpa();
   }
   
-
   //============================= BUSINESS LOGIC LAYER ============================
 
   // ============================== PRESENTATION LAYER  ===========================
