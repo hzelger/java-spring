@@ -6,6 +6,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import swt5.spring.worklog.dao.EmployeeDao;
+import swt5.spring.worklog.dao.jpa.EmployeeDaoJpa;
 
 @Configuration
 @Import(JpaDataSourceConfig.class)
@@ -17,6 +19,11 @@ public class JpaConfig1 {
   }
 
   // ============================== DATA ACCESS LAYER =============================
+  @Bean
+  public EmployeeDao employeeDaoJpa() {
+    return new EmployeeDaoJpa();
+  }
+  
 
   //============================= BUSINESS LOGIC LAYER ============================
 

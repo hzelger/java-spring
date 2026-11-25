@@ -38,11 +38,6 @@ public class JpaDataSourceConfig {
   }
 
   @Bean
-  public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
-    return new PropertySourcesPlaceholderConfigurer();
-  }
-
-  @Bean
   public DataSource dataSource() {
     HikariDataSource dataSource = new HikariDataSource();
     dataSource.setDriverClassName(driverClassName);

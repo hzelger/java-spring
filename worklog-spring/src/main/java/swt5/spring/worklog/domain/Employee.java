@@ -44,6 +44,13 @@ public class Employee implements Serializable {
     this.dateOfBirth = dateOfBirth;
   }
 
+  public Employee(long aLong, String string, String string1, LocalDate localDate) {
+    this.id = aLong;
+    this.firstName = string;
+    this.lastName = string1;
+    this.dateOfBirth = localDate;
+  }
+
   public void addLogbookEntry(LogbookEntry entry) {
     if (entry.getEmployee() != null)
        entry.getEmployee().logbookEntries.remove(entry);
