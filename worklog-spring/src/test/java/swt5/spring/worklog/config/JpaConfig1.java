@@ -14,6 +14,8 @@ import swt5.spring.worklog.dao.EmployeeDao;
 import swt5.spring.worklog.dao.EmployeeRepository;
 import swt5.spring.worklog.dao.GenericDao;
 import swt5.spring.worklog.dao.jpa.EmployeeDaoJpa;
+import swt5.spring.worklog.logic.WorkLogService;
+import swt5.spring.worklog.logic.WorkLogServiceImpl;
 
 @Configuration
 @EnableTransactionManagement
@@ -38,6 +40,11 @@ public class JpaConfig1 {
   }
   
   //============================= BUSINESS LOGIC LAYER ============================
+  
+  @Bean
+  public WorkLogService workLogService(EmployeeDao employeeDao) {
+    return new WorkLogServiceImpl(employeeDao);
+  }
 
   // ============================== PRESENTATION LAYER  ===========================
 }

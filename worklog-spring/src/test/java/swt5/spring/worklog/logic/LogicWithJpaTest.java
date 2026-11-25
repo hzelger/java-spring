@@ -5,21 +5,26 @@ import static swt5.util.PrintUtil.printTitle;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import swt5.spring.worklog.config.JpaConfig1;
 import swt5.spring.worklog.domain.Employee;
 import swt5.spring.worklog.domain.LogbookEntry;
+import swt5.util.JpaUtil;
 
 @SuppressWarnings("Duplicates")
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {})
+@ContextConfiguration(classes = {JpaConfig1.class})
 public class LogicWithJpaTest {
-
-  //
-  // TODO: inject business logic component
-  //
+  @Autowired
+  private WorkLogService workLogService;
+  
+  @Autowired
+  private EntityManagerFactory emFactory;
 
   private void createEmployeesWithLogbookEntries(WorkLogService workLog) {
     var empl1 = new Employee("Sepp", "Forcher", LocalDate.of(1935, 12, 12));
@@ -43,12 +48,21 @@ public class LogicWithJpaTest {
   }
 
   private void printEmployeesWithLogbookEntries(WorkLogService workLog) {
+    for (Employee empl : workLog.findAllEmployees()) {
+      System.out.println(empl);
+      for (LogbookEntry entry : empl.getLogbookEntries()) {
+        System.out.println("  " + entry);
+      }
+    }
   }
 
   @Test
   public void testBusinessLogicWithJpaDaos() {
     printTitle("createEmployeesWithLogbookEntries", 60, '-');
+    createEmployeesWithLogbookEntries(workLogService);
 
     printTitle("printEmployeesWithLogbookEntries", 60, '-');
+
+    JpaUtil.executeInOpenEntityManager(emFactory, () -> printEmployeesWithLogbookEntries(workLogService));
   }
 }
