@@ -1,16 +1,18 @@
 package swt5.spring.worklog.ui;
 
+import lombok.RequiredArgsConstructor;
 import swt5.spring.worklog.domain.Employee;
 import swt5.spring.worklog.logic.WorkLogService;
+import swt5.util.annotation.ViewModel;
 
 // WorkLogViewModelImpl surrounds all of its methods with a JpaInterceptor that
 // that keeps the EntityManager open. This is important when lazily loaded child
 // objects are accessed. Not doing so results in a LazyLoadingException.
+@ViewModel
+@RequiredArgsConstructor
 public class WorkLogViewModelImpl implements WorkLogViewModel {
-  
-  private WorkLogService workLogService;
+  private final WorkLogService workLogService;
 
-  
   @Override
   public void saveEmployees(Employee... employees) {
     for (Employee e : employees)

@@ -16,8 +16,12 @@ import swt5.spring.worklog.dao.GenericDao;
 import swt5.spring.worklog.dao.jpa.EmployeeDaoJpa;
 import swt5.spring.worklog.logic.WorkLogService;
 import swt5.spring.worklog.logic.WorkLogServiceImpl;
+import swt5.spring.worklog.ui.WorkLogViewModel;
+import swt5.spring.worklog.ui.WorkLogViewModelImpl;
+import swt5.util.advice.JpaInterceptor;
 
 @Configuration
+@EnableAspectJAutoProxy
 @EnableTransactionManagement
 @Import(JpaDataSourceConfig.class)
 @EnableJpaRepositories(basePackageClasses = GenericDao.class)
@@ -46,5 +50,17 @@ public class JpaConfig1 {
     return new WorkLogServiceImpl(employeeDao);
   }
 
+  @Bean
+  public WorkLogViewModel workLogViewModel(WorkLogService workLogService) {
+    return new WorkLogViewModelImpl(workLogService);
+  }
+  
+  @Bean
+  public JpaInterceptor jpaInterceptor(EntityManagerFactory emf) {
+    return new JpaInterceptor(emf);
+  }
+  
+  
+  
   // ============================== PRESENTATION LAYER  ===========================
 }
