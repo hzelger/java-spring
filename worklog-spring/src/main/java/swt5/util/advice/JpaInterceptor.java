@@ -19,6 +19,7 @@ public class JpaInterceptor {
   @Getter
   private final EntityManagerFactory entityManagerFactory;
 
+  // @within is for classes and @annotation is for methods
   @Around("@within(swt5.util.annotation.ViewModel)")
   public Object holdEntityManager(ProceedingJoinPoint pjp) throws Throwable {
     if (entityManagerFactory == null)
