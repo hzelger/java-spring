@@ -16,56 +16,83 @@ import swt5.util.JpaUtil;
 import java.time.LocalDate;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { JpaConfig1.class })
+@ContextConfiguration(classes = {JpaConfig1.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Rollback(false)
 public class JpaDaoTest {
 
-  @Autowired
-  private EmployeeDao employeeDao;
-  @Autowired
-  private EntityManagerFactory emFactory;
+    @Autowired
+    private EmployeeDao employeeDao;
+    @Autowired
+    private EntityManagerFactory emFactory;
 
-  private boolean  initialized = false;
-  private Long empl1Id;
-  private Long empl2Id;
-  private Long empl3Id;
+    private boolean initialized = false;
+    private Long empl1Id;
+    private Long empl2Id;
+    private Long empl3Id;
 
-  private void fillDatabase() {
-    if (initialized) return;
+    private void fillDatabase() {
+        if (initialized) return;
 
-    Employee empl1 = new Employee("Johann", "Hinterseer", LocalDate.of(1954, 2, 2));
-    Employee empl2 = new Employee("Suzi", "Quatro", LocalDate.of(1950, 6, 3));
-    Employee empl3 = new Employee("Herbert", "Grönemeyer", LocalDate.of(1956, 4,
-      2));
+        Employee empl1 = new Employee("Johann", "Hinterseer", LocalDate.of(1954, 2, 2));
+        Employee empl2 = new Employee("Suzi", "Quatro", LocalDate.of(1950, 6, 3));
+        Employee empl3 = new Employee("Herbert", "Grönemeyer", LocalDate.of(1956, 4,
+                2));
 
-    employeeDao.insert(empl1);
-    employeeDao.insert(empl2);
-    employeeDao.insert(empl3);
+        employeeDao.insert(empl1);
+        employeeDao.insert(empl2);
+        employeeDao.insert(empl3);
 
 
-    empl1Id = empl1.getId();
-    empl2Id = empl2.getId();
-    empl3Id = empl3.getId();
+        empl1Id = empl1.getId();
+        empl2Id = empl2.getId();
+        empl3Id = empl3.getId();
 
-    initialized = true;
-  }
+        initialized = true;
+    }
 
-  @Test
-  public void testInsert1() {
-    JpaUtil.executeInTransaction(emFactory, this::fillDatabase);
-  }
+    @Test
+    public void testInsert1() {
+        JpaUtil.executeInTransaction(emFactory, this::fillDatabase);
+    }
 
-  @Test
-  public void testUpdate() {
-  }
+    @Test
+    @Transactional
+    public void testInsert2() {
+        fillDatabase();
+    }
 
-  @Test
-  public void testFindById() {
-  }
+    @Test
+    @Transactional
+    public void testFindById() {
+        fillDatabase();
+        
+        var empl1 = employeeDao.findById(empl1Id);
+        IO.println("emp1 = %s".formatted(empl1.map(Employee::toString).orElse("<none>")));
+        
+        
+        var empl2 = employeeDao.findById(9999L);
+        IO.println("emp2 = %s".formatted(empl2.map(Employee::toString).orElse("<none>")));
+    }
 
-  @Test
-  public void testFindAll() {
-  }
+    @Test
+    @Transactional
+    public void testFindAll() {
+        fillDatabase();
+        employeeDao.findAll().forEach(IO::println);
+    }
+
+    @Test
+    @Transactional
+    public void testUpdate() {
+        fillDatabase();
+        var empl1 = employeeDao.findById(empl1Id);
+        if (empl1.isPresent()) {
+            empl1.get().setFirstName("Hansi");
+            empl1.get().setLastName("Hinterseer");
+            // auto updated via first level caching
+        }
+        employeeDao.findById(empl1Id).ifPresent(e -> IO.println("updated emp1 = %s".formatted(e)));
+    }
 }
 
